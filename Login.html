@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title> Animated Login Try </title>
   <link rel="stylesheet" href="layout.css">
+  <script src="account.js"></script>
 </head>
 <body>
 
@@ -17,14 +18,15 @@
   </div>
 
 
-  <form class="box" action="Login.html" method="post">
+  <div class="box">
     <h1> Login </h1>
     <div class="info">
-      <input type="text" name="" placeholder="Username"></input>
-      <input type="password" name="" placeholder="Password"></input>
+      <input type="text" name="" placeholder="Username" id="Username"></input>
+      <input type="password" name="" placeholder="Password" id="Password"></input>
     </div>
-    <input type="submit" name="" value="Login">
-  </form>
+    <button onclick="accountLogin();">Login</button>
+    <p id="output"></p>
+  </div>
 
 
 

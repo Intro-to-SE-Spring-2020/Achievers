@@ -40,6 +40,32 @@ if($selected == "accountcreate"){
 
 if($selected == "accountlogin"){
 
+	$username = strval($_REQUEST['username']);
+	$password = strval($_REQUEST['password']);
+
+	// Username checking to see if username exists
+	$userCheckQuery = "select username from users where username = '$username';";
+	$userCheck = $conn->query($userCheckQuery);
+	$userResult = $userCheck->fetch_array();
+
+	if($userResult[0] == $username) {
+		// Password checking to see if the password is correct
+		$passCheckQuery = "select password from users where username = '$username';";
+		$passCheck = $conn->query($passCheckQuery);
+		$passCheckResult = $passCheck->fetch_array();
+
+		if($passCheckResult[0] == $password) {
+			echo "Login Successful. Redirecting to you home page. If not redirected automatically, <a href='home.html'>Click Here</a>";
+		}
+
+		else{
+			echo "Incorrect user/pass combo!";
+		}
+	}
+
+	else{
+		echo "Incorrect user/pass combo!";
+	}
 
 }
 
