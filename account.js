@@ -23,7 +23,7 @@ function accountCreate() {
 		setInterval(function() {
 		if (xhttp.responseText === "Account Created! Redirecting you to login! If not redirected automatically, <a href = login.html>click here</a>") {
 			setTimeout(function() {
-				window.location.replace("Login.html");
+				window.location.assign("Login.html");
 			}, 2000);
 
 		}
@@ -49,11 +49,16 @@ function accountLogin(){
 
 	setInterval(function() {
 		if (xhttp.responseText === "Login Successful. Redirecting to you home page. If not redirected automatically, <a href='home.html'>Click Here</a>") {
+			localStorage.setItem('username', username)
 			setTimeout(function() {
-				window.location.replace("Home.html");
+				window.location.assign("Home.html");
 			}, 2000);
 
 		}
 		}, 50);	
 
+}
+
+function accountLogout(){
+	localStorage.clear();
 }

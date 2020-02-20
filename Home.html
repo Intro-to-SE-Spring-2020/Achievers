@@ -1,12 +1,40 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
+	<style>
+		table {
+  			font-family: arial, sans-serif;
+  			border-collapse: collapse;
+  			width: 100%;
+		}
+
+		td, th {
+  			border: 1px solid #dddddd;
+  			text-align: left;
+  			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+  		background-color: #dddddd;
+		}
+	</style>
 	<meta charset="utf-8">
 	<title> Pseudo Home Page </title>
+	<script type="text/javascript" src="action.js"></script>
+	<script type="text/javascript" src="account.js"></script>
 
 </head>
 <body>
+	<script>showTweets();</script>
 	<h1>HOME PAGE IN THE WORKS</h1>
+	<a href="Signup.html">Sign Up</a>
+	<a href="Login.html">Login</a><br><br>
+	<input type='text' id='tweetBody' maxlength="140"><br><br>
+	<button onclick="postTweet(); clearFields();">Post Tweet</button>
+	<button onclick="accountLogout();">Logout</button><br><br>
+
+	<h2>Feed</h2>
+	<div id="tweetBox"></div>
 </body>
 
 </html>
