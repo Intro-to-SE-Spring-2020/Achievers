@@ -1,3 +1,7 @@
+<<<<<<< Updated upstream
+=======
+@import "header.css";
+>>>>>>> Stashed changes
 body{
   margin: 0;
   padding: 0;
@@ -67,9 +71,16 @@ body{
 }
 
 /*  _________________________________________________________________________ */
+<<<<<<< Updated upstream
 .header {
   overflow: hidden;
   background-image: url("longcatchingfade.svg");
+=======
+/*
+.header {
+  overflow: hidden;
+  background-image: linear-gradient(-90deg, #9955FF, #5555FF, #5555FF, #5500AA);
+>>>>>>> Stashed changes
   background-repeat: no-repeat;
   box-shadow: 2px 2px 5px white;
   padding: 15px 5px;
@@ -108,3 +119,7 @@ body{
   border: 2px solid #069420;
   border-radius: 25px;
 }
+<<<<<<< Updated upstream
+=======
+/**/
+>>>>>>> Stashed changes
