@@ -1,40 +1,67 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-	<style>
-		table {
-  			font-family: arial, sans-serif;
-  			border-collapse: collapse;
-  			width: 100%;
-		}
-
-		td, th {
-  			border: 1px solid #dddddd;
-  			text-align: left;
-  			padding: 8px;
-		}
-
-		tr:nth-child(even) {
-  		background-color: #dddddd;
-		}
-	</style>
-	<meta charset="utf-8">
-	<title> Pseudo Home Page </title>
-	<script type="text/javascript" src="action.js"></script>
-	<script type="text/javascript" src="account.js"></script>
-
+  <meta charset="utf-8">
+  <title> Homepage </title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
-	<script>showTweets();</script>
-	<h1>HOME PAGE IN THE WORKS</h1>
-	<a href="Signup.html">Sign Up</a>
-	<a href="Login.html">Login</a><br><br>
-	<input type='text' id='tweetBody' maxlength="140"><br><br>
-	<button onclick="postTweet(); clearFields();">Post Tweet</button>
-	<button onclick="accountLogout();">Logout</button><br><br>
+  <div class="header">
+    <a href="about.html" class="logo">Achievers</a>
+    <div class="header-right">
+      <a href="login.html">Account?</a>
+    </div>
+  </div>
 
-	<h2>Feed</h2>
-	<div id="tweetBox"></div>
+  <div class="scroll-section">
+    <div class="bar">
+      <a href="#">Trends</a>
+      <div class="submenu" id="toggle">
+        Trends will go here.
+
+      </div>
+      <a href="#">Following</a>
+      <div class="submenu">
+        The activities of people you follow will appear here.
+
+      </div>
+      <a href="#">Write Something</a>
+      <div class="submenu">
+        <textarea id="written" rows="15" cols="80">
+          Placeholder text... Next is to Submit.
+
+        </textarea><br>
+        <input type="button" onclick="#" value="Submit">
+      </div>
+    </div>
+
+  </div>
+  <div class="menu-content">
+    <ul>
+      <li class="menu">Menu</li>
+            <li><i class="fa fa-users"></i> Friends </li>
+            <li><i class="fa fa-envelope"></i> Messages</li>
+            <li><i class="fa fa-cog"></i> Settings</li>
+            <li><i class="fa fa-phone-square"></i> Contact Us</li>
+            <li><i class="fa fa-home"></i> Sign IN/OUT</li>
+        </ul>
+      <a href="#" id="click"><i class="fa fa-arrow-left"></i></a>
+  </div>
+  <script>
+      $(document).ready(function() {
+        $("#click").click(function() {
+              $(".menu-content").toggleClass("none");
+              $(".fa").toggleClass("fa-arrow-right");
+              $(".fa").toggleClass("fa-arrow-left");
+        });
+  });
+      </script>
 </body>
-
 </html>
+
+<!--
+Store session ID in cookies,
+session ID needs indepentence 'Merica'
+-->
