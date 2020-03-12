@@ -1,0 +1,6 @@
+{
+    "name" : "Achievers",
+    "scripts": {
+        "test": "mocha --reporter nyan"
+    }
+}
