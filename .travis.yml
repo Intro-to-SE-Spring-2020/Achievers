@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - lts/*
 install:
-  npm ci
+  - npm i mocha
+  - npm ci
 script:
   - npm run test
