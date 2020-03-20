@@ -1,4 +1,13 @@
-function accountCreate() {
+/*
+* account.js - contains files relating to creation of account and logging into accounts
+*
+*/
+
+// Object to expose functions to test file
+let account = {};
+
+
+account.accountCreate = function() {
 	var selected = "accountCreate";
 	var username = document.getElementById('Username').value;
 	var password = document.getElementById('Password').value;
@@ -31,7 +40,7 @@ function accountCreate() {
 	}
 }
 
-function accountLogin(){
+account.accountLogin = function(){
 
 	var selected = "accountLogin";
 	var username = document.getElementById('Username').value;
@@ -59,6 +68,9 @@ function accountLogin(){
 
 }
 
-function accountLogout(){
+account.accountLogout =  function(){
 	localStorage.clear();
 }
+
+
+module.exports = account;
