@@ -3,6 +3,7 @@ node_js:
   - lts/*
 install:
   - npm i mocha
+  - npm i jsdom
   - npm ci
 script:
   - npm run test
