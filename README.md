@@ -3,7 +3,7 @@ Intro_to_SE Project
 
 |     Role   	|   Name      	    |NetID	|   GitHub Username 	|
 |:-----------:|:-----------------:|:-----:|:-------------------:|
-|Team Leader	|Felicity Harvard 	| 	    |FelicityHarvard	    |
+|Team Leader	|Felicity Harvard 	|fah78  |FelicityHarvard	    |
 |Team Member1	|Caleb Mills 		    |ctm364	|CTMills		          |
 |Team Member2	|Eddie Caveness 	  |ewc65	|SaltyWizard22		    |
 |Team Member3	|Darius Wheeler 	  |dlw605	|dlwheeler5199		    |	
