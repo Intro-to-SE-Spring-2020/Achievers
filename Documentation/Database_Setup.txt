@@ -1,0 +1,11 @@
+Setting up your database for using/testing our Twitter application made easy!
+
+First, make sure that you have python3 installed and a way to run python scripts. The easiest way would be the Ubuntu app for Windows.
+
+Second, you need to install mysql connector for python3. This can usually be done by doing "pip3 install mysql-connector-python" on the ubuntu app
+
+Third, cd into the directory holding the database.py file from our github
+
+Finally, simply run the database.py script by using the command "python3 database.py"
+
+The script will run through whether you are hosting locally or not (if you changed any of your local xampp settings, then you will need to edit the database script to fix those local settings)

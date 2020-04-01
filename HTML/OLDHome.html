@@ -20,6 +20,7 @@
 	</style>
 	<meta charset="utf-8">
 	<title> Pseudo Home Page </title>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script type="text/javascript" src="action.js"></script>
 	<script type="text/javascript" src="account.js"></script>
 
@@ -32,9 +33,10 @@
 	<input type='text' id='tweetBody' maxlength="140"><br><br>
 	<button onclick="postTweet(); clearFields();">Post Tweet</button>
 	<button onclick="accountLogout();">Logout</button><br><br>
+  <button onclick="showTweets();">Show Tweet</button>
 
 	<h2>Feed</h2>
-	<div id="tweetBox"></div>
+	<table id="tweetBox"></table>
 </body>
 
 </html>
