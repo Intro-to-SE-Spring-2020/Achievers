@@ -1,4 +1,9 @@
+
 @import "header.css";
+
+@import "header.css";
+
+
 body{
   margin: 0;
   padding: 0;
@@ -67,6 +72,48 @@ body{
   font-size:18px;
 }*/
 .box button{
+
+}
+
+/*  _________________________________________________________________________ */
+
+.header {
+  overflow: hidden;
+
+/*
+.header {
+  overflow: hidden;
+  background-image: linear-gradient(-90deg, #9955FF, #5555FF, #5555FF, #5500AA);
+  background-repeat: no-repeat;
+  box-shadow: 2px 2px 5px white;
+  padding: 15px 5px;
+  border-radius: 50px;
+}
+.header a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+.header a:hover {
+  background-color: #d1d1d1;
+  color: black;
+  border-radius: 25px;
+  box-shadow: 2px 2px 10px black;
+  transition: 0.25s;
+}
+.header-right{
+  float: right;
+}
+.header-right a {
   border:0;
   background: none;
   display: block;
@@ -84,3 +131,5 @@ body{
   background: #2ecc71;
   font-size:18px;
 }
+/**/
+
