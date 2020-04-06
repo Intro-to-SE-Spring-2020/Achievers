@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title> Userpage </title>
+  <link rel="stylesheet" href="../Styling/home.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="../JavaScript/action.js"></script>
+<script type="text/javascript" src="../JavaScript/account.js"></script>
+</head>
+<body>
+  <div class="header">
+    <a href="home.html" class="logo">Achievers</a>
+    <div class="header-right">
+      <a href="login.html">Account?</a>
+      <a href="signup.html">Need An Account?</a>
+      <a href="#no" id="click" class="clicker"><i class="fa fa-arrow-left"></i></a>
+    </div>
+  </div>
+
+  <div class="scroll-section">
+    <div class="bar">
+
+      <div class="item" id="following">
+        <a href="#following">Following</a>
+          <div class="submenu toggle">
+            The activities of people you follow will appear here.
+          </div>
+      </div>
+
+      <div class="item" id="friends">
+        <a href="#friends">Friends</a>
+          <div class="submenu">
+            The activities of friends will appear here.
+            Along with a list of friends...Maybe???
+          </div>
+      </div>
+
+      <div class="item" id="request">
+        <a href="#request">Request</a>
+          <div class="submenu">
+              Requests will be ignored here.
+          </div>
+      </div>
+
+      <div class="item" id="messages">
+        <a href="#messages">Messages</a>
+          <div class="submenu">
+              A message inbox will manifest here...In time, it is pretty lazy.
+          </div>
+      </div>
+
+      <div class="item" id="Write">
+        <a href="#Write">Write Something</a>
+        <div class="submenu">
+          <script>showTweets();</script>
+          <span class="tweeters">
+          <span class="a">
+            <h2>Make a Post</h2>
+            <textarea id='tweetBody' rows='6' cols="35"></textarea><br><br>
+            <button class="btn" onclick="postTweet(); clearFields();">Post Tweet</button>
+            <h2>Options</h2>
+            <h3>Filters</h3>
+          </span>
+          <span class="b">
+            <h2>Feed</h2>
+            <p id="checkplz">Boxy Brown</p>
+            <div id="tweetBox"></div>
+          </span>
+
+        </span>
+        </div>
+      </div>
+
+      <div class="item" id="past">
+        <a href="#past">Historical</a>
+          <div class="submenu">
+              The users old post will appear here,
+               along with a small snippet of where they came from.
+                maybe a link back too?
+          </div>
+      </div>
+
+      <div class="item" id="Best">
+        <a href="#Best">Your Best of All Time</a>
+          <div class="submenu">
+              A shrine to the users most popular post will go here.
+              By grace of the like system.
+          </div>
+      </div>
+
+   </div>
+  </div>
+  <div class="menu-content visuallyhidden hidden" id="slide">
+    <ul>
+      <li class="menu">Menu</li>
+            <li onclick="window.location.href='Account_Page.html'"><i class="fa fa-meh"></i> <span id="theuser"></span></li>
+            <li onclick="window.location.href='Account_Page.html#friends'"><i class="fa fa-users"></i> Friends </li>
+            <li onclick="window.location.href='Account_Page.html#messages'"><i class="fa fa-envelope"></i> Messages</li>
+            <li onclick="window.location.href='Account_Settings.html#settings'"><i class="fa fa-cog"></i> Settings</li>
+            <li onclick="window.location.href='about.html'"><i class="fa fa-phone-square"></i> Contact Us</li>
+            <li onclick="accountLogout();"><i class="fa fa-home"></i> Sign IN/OUT</li>
+        </ul>
+  </div>
+
+  <script>
+          let slide = document.getElementById('slide'),
+          clk = document.querySelector('.clicker');
+
+          clk.addEventListener('click', function () {
+            $(".fa").toggleClass("fa-arrow-right");
+            $(".fa").toggleClass("fa-arrow-left");
+          if (slide.classList.contains('hidden')) {
+          slide.classList.remove('hidden');
+          setTimeout(function () {slide.classList.remove('visuallyhidden');}, 16);
+          }
+          else {
+          slide.classList.add('visuallyhidden');
+          slide.addEventListener('transitionend',function(e) {slide.classList.add('hidden');},{capture: false, once: true, passive: false});
+          }
+          }, false);
+      </script>
+</body>
+</html>
+
+<!--
+Store session ID in cookies,
+session ID needs indepentence 'Merica'
+-->
