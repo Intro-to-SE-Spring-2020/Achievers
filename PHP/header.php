@@ -1,4 +1,7 @@
 <?php
+
+// Php file that creates a new connection to be used for database interaction
+
 $hn = 'localhost';  
 $un = 'root';
 $pw = '';
