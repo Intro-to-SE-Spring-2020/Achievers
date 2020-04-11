@@ -2,3 +2,7 @@
 node_modules/
 # But do need jsdom
 !node_modules/jsdom
+
+# Don't need the python environment
+IntegrationTestingPython/venv
+IntegrationTestingPython/.idea
