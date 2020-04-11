@@ -70,7 +70,7 @@ function accountLogin(){
 	setInterval(function() {
 
 		// If it succeeds on logging in then redirect to home page
-		if (xhttp.responseText === "Login Successful. Redirecting to you home page. If not redirected automatically, <a href='home.html'>Click Here</a>") {
+		if (loginAccountRequest.responseText === "Login Successful. Redirecting to you home page. If not redirected automatically, <a href='home.html'>Click Here</a>") {
 			localStorage.setItem('username', username)
 			setTimeout(function() {
 				window.location.assign("Home.html");
