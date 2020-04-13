@@ -1,0 +1,82 @@
+span.a { /* This is out left column element space*/
+  float:right;
+  width: 40%;
+  height: 90%;
+  padding: 5px;
+  overflow: hidden;
+  border: 1px solid blue;
+}
+span.a textarea{
+  width: 85%;
+  height: 25%;
+  border: 1px solid black;
+}
+span.a .btn{
+    margin-top: 2%;
+    margin-left: 70%;
+}
+span.b { /* This is out right column element space*/
+  float:left;
+  width: 55%;
+  height: 90%;
+  padding: 5px;
+  overflow: scroll;
+  overflow-x: hidden;
+  border: 1px solid purple;
+}
+.tweeters:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+div.c { /* This is only the inner element space*/
+  display: block;
+  width: 90%;
+  height: 20%;
+  padding: 5px;
+  overflow: scroll;
+  overflow-x: hidden;
+  border: 1px solid blue;
+  background-color: #FFFFFFA5;
+  margin-bottom: 1%;
+  border-radius: 15px;
+  -ms-overflow-style: none;
+}
+div.c::-webkit-scrollbar {
+  display: none;
+}
+div.c .upper{
+  /*box-shadow: 2px 2px 5px white;*/
+  padding: 15px 5px;
+  border-radius: 50px;
+  width: 75%;
+  margin-left: 10%;
+}
+.upper-right{
+  float: right;
+}
+div.c .middle{
+  /*box-shadow: 2px 2px 5px white;*/
+  padding: 15px 5px;
+/*  border-radius: 50px;*/
+  width: 75%;
+  min-height: 50%;
+  max-height: 75%;
+  overflow: hidden;
+  border: 1px solid red;
+  margin-left: 10%;
+  overflow-wrap: break-word;
+}
+div.c .lower{
+  /*box-shadow: 2px 2px 5px white;*/
+  padding: 15px 5px;
+  border-radius: 50px;
+  width: 75%;
+  overflow: hidden;
+  margin-left: 10%;
+}
+.lower-right{
+  float: right;
+  width: 75%;
+  overflow:none;
+}
