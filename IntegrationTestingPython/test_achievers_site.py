@@ -16,6 +16,7 @@ from time import sleep
 logging.basicConfig(filename='Achievers_Testing.log', level=logging.INFO)
 signup_logger = logging.getLogger("IntegrationTestingPython.signup_test")
 
+check = '\u2713'
 
 # For logging purposes
 def excepthook(*args):
@@ -42,6 +43,7 @@ def generate_new_username():
 
 class TestAchieversSite:
     def setup_method(self, driver, method=None):
+        self.start_time = datetime.now()
         self.driver = driver  # to take input
         self.entries = [["Username", generate_new_username()], ["Email", "TestEmail@email.com"],
                         ["Password", "TestPass"], ["ConfirmPass", "Wrong"]]
@@ -50,61 +52,75 @@ class TestAchieversSite:
     def run(self, driver):
         self.setup_method(driver=driver)
         signup_page = self.driver.current_url
-        self.test_signup_login()
+        print("Testing Begin")
+        self.test_signup()
+        self.test_login()
         #test home page
         self.test_home_page_username()
         self.test_post_tweet()
         # Reset for new user
         driver.get(signup_page)
         self.setup_method(driver=driver)
-        self.test_signup_login()
+        self.test_signup()
+        self.test_login()
         self.test_post_tweet()
         self.test_like_tweet()
         self.test_follow_user()
+        print("Testing Complete")
         self.teardown_method()
 
     def teardown_method(self, method=None):
         self.driver.quit()
+        total_time = (datetime.now()-self.start_time).total_seconds()
+        print("Total time to run tests:", total_time, "s")
 
-    def test_signup_login(self):
+    def test_signup(self):
 
         # Start the browser
-        self.driver.get("http://localhost/Achievers/HTML/signup.html")
-        assert "signup" in self.driver.title.lower()
-        print("On signup page")
+        print("Testing signup page...")
+        try:
+            self.driver.get("http://localhost/Achievers/HTML/signup.html")
+            assert "signup" in self.driver.title.lower()
+            print("\t" + check + "...Signup Page loaded")
 
-        # Send in test data (mess up the confirmation password)
-        for entry in self.entries:
-            #print(entry[0], entry[1])
-            self.driver.find_element(By.ID, entry[0]).send_keys(entry[1])
+            # Send in test data (mess up the confirmation password)
+            for entry in self.entries:
+                #print(entry[0], entry[1])
+                self.driver.find_element(By.ID, entry[0]).send_keys(entry[1])
 
-        # Click button, the output should show that the passwords do not match
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
-        output = self.driver.find_element(By.ID, "output").text
-        assert all(word in output.lower() for word in ["password", "match"])
-        print("Password confirmation passed test")
+            # Click button, the output should show that the passwords do not match
+            self.driver.find_element(By.CSS_SELECTOR, "button").click()
+            output = self.driver.find_element(By.ID, "output").text
+            assert all(word in output.lower() for word in ["password", "match"])
+            print("\t" + check + "...password confirmation passed test")
 
-        # Fix the password (clear field first) and click on button
-        #print(self.entries[3][0], self.entries[2][1])
-        cp = self.driver.find_element(By.ID, self.entries[3][0])
-        cp.clear()
-        cp.send_keys(self.entries[2][1])
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
+            # Fix the password (clear field first) and click on button
+            #print(self.entries[3][0], self.entries[2][1])
+            cp = self.driver.find_element(By.ID, self.entries[3][0])
+            cp.clear()
+            cp.send_keys(self.entries[2][1])
+            self.driver.find_element(By.CSS_SELECTOR, "button").click()
 
-        # wait, then should be taken to the login page
-        # From https://selenium-python.readthedocs.io/waits.html
-        if not page_change_wait_and_assert(driver=self.driver, string_in_title="Login"):
-            return
-        print("Signup passed tests")
+            # wait, then should be taken to the login page
+            # From https://selenium-python.readthedocs.io/waits.html
+            if not page_change_wait_and_assert(driver=self.driver, string_in_title="Login"):
+                return
+        except AssertionError as e:
+            print("X...Signup Page failed test(s)")
+        print("\t" + check + "...Login page loaded")
+        print(check + " Signup Page passed tests")
 
-        print("On login page")
+    def test_login(self):
+        print("Testing login page...")
+        assert "login" in self.driver.title.lower()
+        print("\t" + check + "...Login Page still loaded")
 
         login_testing_entries = [[generate_new_username(), self.entries[2][1]],     # wrong username, correct pass
                                  [self.entries[0][1], "badWords"]]                  # Correct username, wrong pass
 
         # Have to sleep for some reason ( I assume the speed of the browser is not fast enough to load everything)
         sleep(1)
-        print("Testing Login username/password validation...", end='\t')
+        print("Testing Login username/password validation with incorrect entries...", end='\t')
         user_field = self.driver.find_element(By.ID, "Username")
         pass_field = self.driver.find_element(By.ID, "Password")
         try:
@@ -118,28 +134,33 @@ class TestAchieversSite:
                 # clear fields
                 user_field.clear()
                 pass_field.clear()
-            print("\u2713...passed tests")
+            print(check + "...passed tests")
         except AssertionError as e:
             print("X...failed tests\t Error:", e)
-
         except Exception as e:
-            print("X...something went wrong\t Error Message:", e)
+            print("X...something went wrong with login entry validation\t Error Message:", e)
+        print()
 
         # clear fields
         user_field.clear()
         pass_field.clear()
+        print("Testing Login username/password validation with correct entries...", end='\t')
+        try:
 
-        # Enter in correct username/password, press enter on button (username and password are 0th and 2nd items)
-        user_field.send_keys(self.entries[0][1])
-        pass_field.send_keys(self.entries[2][1])
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
+            # Enter in correct username/password, press enter on button (username and password are 0th and 2nd items)
+            user_field.send_keys(self.entries[0][1])
+            pass_field.send_keys(self.entries[2][1])
+            self.driver.find_element(By.CSS_SELECTOR, "button").click()
 
-        # wait, then should be taken to the home page
-        # From https://selenium-python.readthedocs.io/waits.html
-        if not page_change_wait_and_assert(driver=self.driver, string_in_title="Home"):
-            print("Did not go to home page!")
-            return
-        print("Sign up and Login passed all tests! - Now at home page")
+            # wait, then should be taken to the home page
+            # From https://selenium-python.readthedocs.io/waits.html
+            if not page_change_wait_and_assert(driver=self.driver, string_in_title="Home"):
+                print("X ... Login failed; did not go to Home page!")
+                return
+            print(check + "... Logged in - Home page loaded")
+        except Exception as e:
+            print("X ... Login page failed test\t Error Message:", e)
+        print()
 
     def test_home_page_username(self):
         # Still on home page from other
@@ -161,19 +182,24 @@ class TestAchieversSite:
             print("\u2713...passed tests...User is indeed logged in")
         except Exception as e:
             print("X...failed tests\t Error Message:", e)
+        print()
 
     def test_post_tweet(self):
         """Testing post a tweet"""
         print("Testing posting a tweet...", end="\t")
         try:
             username = self.entries[0][1]
-            new_text = username + "\'s new tweet test"
+            new_text = username + "\\'s new tweet test"
 
             # From https://stackoverflow.com/questions/36614118/python-selenium-sending-keys-into-textarea
             WebDriverWait(self.driver, 5).until(
                 expected_conditions.presence_of_element_located((By.ID, "tweetBody"))
             )  # Wait until the `tweetBody` element appear (up to 5 seconds)
             body = self.driver.find_element_by_id("tweetBody")
+
+            # Error is currently believed to be in this block
+            # Issue is that the PHP does not get
+            ###################################
             body.click()
             body.send_keys(Keys.TAB)
             sleep(1)
@@ -181,37 +207,18 @@ class TestAchieversSite:
             body.send_keys(new_text)
             height = self.driver.get_window_size()["height"] / 10
             ActionChains(self.driver).move_to_element(body).move_by_offset(height, -height).click().perform()
+            ###################################
 
-            #js = 'document.getElementById("tweetBody").setAttribute("value", "woo")'
-            #self.driver.execute_script(script=js)
-
-            '''
-            tweet_body = self.driver.find_element(By.ID, "tweetBody")
-            tweet_body.click()
-            tweet_body.clear()
-            tweet_body.set_attriubte
-            tweet_body.send_keys(new_text)
-            sleep(2)
-            self.driver.send_keys(Keys.TAB)
-            sleep(2)
-            self.driver.send_keys(Keys.ENTER)
-            
-            ActionChains(self.driver).pause(.2).send_keys(Keys.ENTER).perform()
-            actions = ActionChains(self.driver)
-            actions.move_to_element(tweet_body).click().pause(0.5).clear().pause(0.5).send_keys(new_text).perform()
-            
-            self.driver.execute_script("postTweet();")
-            '''
-
-            sleep(1)
+            sleep(0.2)
             button = self.driver.find_element_by_xpath("//button[contains(.,'Post Tweet') and not(@disabled)]")
             ActionChains(self.driver).move_to_element(button).pause(0.2).click().pause(0.2).perform()
             sleep(0.2)
             tweet_text = self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(1) > .middle").text
             assert username in tweet_text
-            print("Tweet posting passed test...\u2713")
+            print(check+"...Tweet posting passed test...")
         except Exception as e:
             print("Tweet posting failed test...X\t Error Message:", e)
+        print()
 
     def test_like_tweet(self):
         """Testing like tweet"""
@@ -219,10 +226,10 @@ class TestAchieversSite:
         print("Testing liking a tweet...", end="\n")
         #current_tweet = None
         possible_tweets = self.driver.find_elements_by_class_name("upper-right")
-        tests_to_run = max(len(possible_tweets), 10)
+        tests_to_run = min(len(possible_tweets), 10)
         failed = 0
         for t in possible_tweets[:tests_to_run]:
-            print(f"\t Test {possible_tweets.index(t)}: ", end='\t')
+            print(f"\tTest {possible_tweets.index(t)+1}: ", end='\t')
             try:
                 twt_id_str = t.find_element_by_xpath("./span").get_attribute("id")
                 twt_id = twt_id_str[:twt_id_str.find("likes")]  # want just the number part
@@ -235,11 +242,11 @@ class TestAchieversSite:
                 if par.find_element_by_id("tweetUser").text == self.entries[0][1]:
                     # print(f"Logged in as tweet {twt_id}'s user; cannot like own tweet")
                     assert "your tweet" in new_liked_text
-                    print(f"\u2713 Successfully failed at liking tweet {twt_id}")
+                    print(f"{check} Successfully failed at liking own tweet {twt_id}")
                 else:
                     # print(f"Can like tweet {twt_id}")
                     assert int(new_liked_text) == int(old_liked_text) + 1
-                    print(f"\u2713 Successfully liked tweet {twt_id}")
+                    print(f"{check} Successfully liked tweet {twt_id}")
             except AssertionError as e:
                 failed += 1
                 print("X..." + e, end='\n')
@@ -247,59 +254,85 @@ class TestAchieversSite:
                 failed += 1
                 print("X..." + e, end='\n')
         print(f"Liking Tweet passed {tests_to_run-failed} out of {tests_to_run} tests")
+        print()
 
 
     def test_follow_user(self):
         print("Testing following a user...", end="\n")
-        #current_tweet = None
-        possible_tweets = self.driver.find_elements_by_class_name("upper-right")
-        tests_to_run = max(len(possible_tweets), 10)
-        passed = 0
+        # current_tweet = None
         tests = {"Follow self": False, "Follow User": False, "Unfollow User": False}
-        for t in possible_tweets[:tests_to_run]:
+        possible_tweets = self.driver.find_elements_by_class_name("upper-right")
+        tests_to_run = min(len(possible_tweets), 10)
+        passed, total_ran = 0, 0
+        last_tweet_id = len(possible_tweets)
+        for twt_id in range(last_tweet_id, last_tweet_id-tests_to_run, -1):
+            possible_tweets = self.driver.find_elements_by_class_name("upper-right")
+            test_number_string = "\tTest " + str(total_ran + 1) + ":\t"
             try:
-                twt_id_str = t.find_element_by_xpath("./span").get_attribute("id")
-                # twt_id = twt_id_str[:twt_id_str.find("likes")]  # want just the number part
+                # have to search through list of tweets every time due to refresh ( I think)
+                for t in possible_tweets:
+                    try:
+                        twt_id_str = t.find_element_by_xpath("./span").get_attribute("id")
+                        curr_twt_id = int(twt_id_str[:twt_id_str.find("likes")])  # want just the number part
+                        # only proceed through test if match
+                        if curr_twt_id != twt_id:
+                            continue
+                    except Exception as e:
+                        print(test_number_string+"Error in searching tweets...", e)
                 par = t.find_element_by_xpath('..')  # get parent
-
-                if par.find_element_by_id("tweetUser").text == self.entries[0][1]:
+                if par.find_element_by_id("tweetUser").text == self.entries[0][1] and not tests["Follow User"]:
                     # print(f"Logged in as tweet {twt_id}'s user; cannot follow self")
+                    total_ran += 1
                     try:
                         follow_button = par.find_element_by_id("follow")
                         # if get to here, have failed
-                        print("\t" + "X... Failed at failing to follow self.")
+                        print(test_number_string+"X... Failed at failing to follow self.")
+
                     except Exception:
                         passed += 1
-                        print("\t" + f"\u2713 Successfully failed at following self")
+                        print(test_number_string + f"{check} Successfully failed at following self")
                         tests["Follow self"] = True
+
                 else:
                     follow_button = par.find_element_by_id("follow")
-                    if follow_button.text == "Follow":
+                    if follow_button.text == "Follow" and not tests["Follow User"]:
+                        total_ran += 1
                         try:
+                            follow_button = par.find_element_by_id("follow") # refresh for some reason?
                             follow_button.click()
                             sleep(0.1)
-                            follow_button = par.find_element_by_id("follow")
+                            # Cannot use follow_button or par references any more
+                            twt_upper_right = self.driver.find_element(By.ID, twt_id_str).find_element_by_xpath('..')
+                            follow_button = twt_upper_right.find_element_by_xpath('..').find_element_by_id("follow")
                             assert follow_button.text == "Unfollow"
-                            print("\t" + f"\u2713 Successfully followed another user")
-                            passed+=1
+                            print(test_number_string + f"{check} Successfully followed another user")
+                            passed += 1
                             tests["Follow User"] = True
                         except Exception as e:
-                            print("\t" + "X... Unsuccessful in following another user.",e)
-                    elif follow_button.text == "Unfollow":
+                            print(test_number_string + "X... Unsuccessful in following another user.", e)
+                    elif follow_button.text == "Unfollow" and not tests["Unfollow User"]:
+                        total_ran += 1
                         try:
                             follow_button.click()
                             sleep(0.1)
+                            # Cannot use follow_button or par references any more
+                            twt_upper_right = self.driver.find_element(By.ID, twt_id_str).find_element_by_xpath('..')
+                            follow_button = twt_upper_right.find_element_by_xpath('..').find_element_by_id("follow")
+
                             assert follow_button.text == "Follow"
-                            print("\t" + f"\u2713 Successfully unfollowed a followed user")
+                            print(test_number_string + f"{check} Successfully unfollowed a followed user")
                             passed += 1
                             tests["Unfollow User"] = True
                         except Exception as e:
-                            print("\t" + "X... Unsuccessful in unfollowing a followed user.", e)
+                            print(test_number_string + "X... Unsuccessful in unfollowing a followed user.", e)
+                # end of big if
+                continue  # To avoid stale memory references...
             except Exception as e:
-                print("Something went wrong in the test_follow_user function!")
+                print(test_number_string + f"Something went wrong in the test_follow_user function with tweet {twt_id}:", e)
                 return
 
-        print(f"Following User passed {passed} out of {tests_to_run} tests")
+        print(f"Following User passed {passed} out of {total_ran} tests...", end='\t')
         for case in tests.keys():
             if not tests[case]:
-                print("Did not test", case)
+                print("Did not test \'"+case+"\'", end='\t')
+        print()

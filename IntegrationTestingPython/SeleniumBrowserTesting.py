@@ -40,8 +40,6 @@ driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Selenium\chro
 
 try:
     test = TestAchieversSite()
-    test.run(driver=driver) # actually running the tests
+    test.run(driver=driver)  # actually running the tests
 except Exception as e:
     print(e)
-finally:
-    test.teardown_method()
