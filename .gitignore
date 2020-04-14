@@ -1,8 +1,7 @@
 # No need to have 12.5 MB of modules
 node_modules/
-# But do need jsdom
-!node_modules/jsdom
 
 # Don't need the python environment
 IntegrationTestingPython/venv
 IntegrationTestingPython/.idea
+IntegrationTestingPython/Selenium IDE
