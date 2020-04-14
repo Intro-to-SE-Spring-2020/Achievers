@@ -4,13 +4,14 @@ userId = 'root'
 passId = ''
 hostId = '127.0.0.1'
 
+'''
 choice = str(input("Are you hosting locally (y/n): "))
 
 if choice == 'n':
     userId = str(input("\nEnter the username: "))
     passId = str(input("\nEnter the password: "))
     hostId = str(input("\nEnter the host: "))
-
+'''
 
 
 cnx = mysql.connector.connect(user= userId, password= passId,
