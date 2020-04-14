@@ -5,7 +5,7 @@ language: python
 
 python: 3.8
 before_script:
-  - python ./database.py
+  - ./database.py
   # https://www.ocadotechnology.com/blog/2019/1/14/how-to-use-chromedriver-with-travis-ci-for-selenium-tests
   - wget https://chromedriver.storage.googleapis.com/81.0.4044.69/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
