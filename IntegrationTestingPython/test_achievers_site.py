@@ -217,76 +217,89 @@ class TestAchieversSite:
         """Testing like tweet"""
         # Liking a tweet (must be done after posting a tweet as a different user (have to run Signup/login again)
         print("Testing liking a tweet...", end="\n")
-        current_tweet = None
+        #current_tweet = None
         possible_tweets = self.driver.find_elements_by_class_name("upper-right")
-        for t in possible_tweets[:10]:
+        tests_to_run = max(len(possible_tweets), 10)
+        failed = 0
+        for t in possible_tweets[:tests_to_run]:
+            print(f"\t Test {possible_tweets.index(t)}: ", end='\t')
             try:
-                twt_id = t.find_element_by_xpath("./span").get_attribute("id")
-                twt_id = twt_id[:twt_id.find("like")]  # want just the number part
+                twt_id_str = t.find_element_by_xpath("./span").get_attribute("id")
+                twt_id = twt_id_str[:twt_id_str.find("likes")]  # want just the number part
                 par = t.find_element_by_xpath('..')  # get parent
+                like_text_xpath = ".//span[@id='" + twt_id_str + "']"
+                old_liked_text = par.find_element_by_xpath(like_text_xpath).text
+                par.find_element_by_id("like").click()
+                sleep(0.5)
+                new_liked_text = par.find_element_by_xpath(like_text_xpath).text
                 if par.find_element_by_id("tweetUser").text == self.entries[0][1]:
-                    print("Cannot like this tweet", twt_id)
+                    # print(f"Logged in as tweet {twt_id}'s user; cannot like own tweet")
+                    assert "your tweet" in new_liked_text
+                    print(f"\u2713 Successfully failed at liking tweet {twt_id}")
                 else:
-                    print("Can like this tweet", twt_id)
+                    # print(f"Can like tweet {twt_id}")
+                    assert int(new_liked_text) == int(old_liked_text) + 1
+                    print(f"\u2713 Successfully liked tweet {twt_id}")
             except AssertionError as e:
-                print(e)
+                failed += 1
+                print("X..." + e, end='\n')
             except Exception as e:
-                print(e)
+                failed += 1
+                print("X..." + e, end='\n')
+        print(f"Liking Tweet passed {tests_to_run-failed} out of {tests_to_run} tests")
+
 
     def test_follow_user(self):
+        print("Testing following a user...", end="\n")
+        #current_tweet = None
+        possible_tweets = self.driver.find_elements_by_class_name("upper-right")
+        tests_to_run = max(len(possible_tweets), 10)
+        passed = 0
+        tests = {"Follow self": False, "Follow User": False, "Unfollow User": False}
+        for t in possible_tweets[:tests_to_run]:
+            try:
+                twt_id_str = t.find_element_by_xpath("./span").get_attribute("id")
+                # twt_id = twt_id_str[:twt_id_str.find("likes")]  # want just the number part
+                par = t.find_element_by_xpath('..')  # get parent
 
-        self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(1) #follow").click()
-        self.driver.find_element(By.LINK_TEXT, "Following").click()
-        self.driver.find_element(By.LINK_TEXT, "Write Something").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(2) #reply").click()
+                if par.find_element_by_id("tweetUser").text == self.entries[0][1]:
+                    # print(f"Logged in as tweet {twt_id}'s user; cannot follow self")
+                    try:
+                        follow_button = par.find_element_by_id("follow")
+                        # if get to here, have failed
+                        print("\t" + "X... Failed at failing to follow self.")
+                    except Exception:
+                        passed += 1
+                        print("\t" + f"\u2713 Successfully failed at following self")
+                        tests["Follow self"] = True
+                else:
+                    follow_button = par.find_element_by_id("follow")
+                    if follow_button.text == "Follow":
+                        try:
+                            follow_button.click()
+                            sleep(0.1)
+                            follow_button = par.find_element_by_id("follow")
+                            assert follow_button.text == "Unfollow"
+                            print("\t" + f"\u2713 Successfully followed another user")
+                            passed+=1
+                            tests["Follow User"] = True
+                        except Exception as e:
+                            print("\t" + "X... Unsuccessful in following another user.",e)
+                    elif follow_button.text == "Unfollow":
+                        try:
+                            follow_button.click()
+                            sleep(0.1)
+                            assert follow_button.text == "Follow"
+                            print("\t" + f"\u2713 Successfully unfollowed a followed user")
+                            passed += 1
+                            tests["Unfollow User"] = True
+                        except Exception as e:
+                            print("\t" + "X... Unsuccessful in unfollowing a followed user.", e)
+            except Exception as e:
+                print("Something went wrong in the test_follow_user function!")
+                return
 
-        '''
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
-        self.driver.find_element(By.ID, "Username").click()
-        self.driver.find_element(By.ID, "Username").send_keys("testname")
-        self.driver.find_element(By.ID, "Password").send_keys("testpassword")
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
-        self.driver.find_element(By.ID, "Password").click()
-        self.driver.find_element(By.ID, "Password").click()
-        element = self.driver.find_element(By.ID, "Password")
-        actions = ActionChains(self.driver)
-        actions.double_click(element).perform()
-        self.driver.find_element(By.ID, "Password").send_keys(Keys.ENTER)
-        self.driver.find_element(By.ID, "Password").send_keys("testpassword")
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
-        self.driver.find_element(By.ID, "Password").click()
-        self.driver.find_element(By.ID, "Password").send_keys(Keys.ENTER)
-        self.driver.find_element(By.ID, "Password").send_keys("testpassword")
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
-        self.driver.find_element(By.ID, "Password").click()
-        self.driver.find_element(By.ID, "Password").send_keys("test password")
-        self.driver.find_element(By.ID, "Password").send_keys(Keys.ENTER)
-        self.driver.find_element(By.ID, "Password").click()
-        self.driver.find_element(By.ID, "Password").send_keys("testpass")
-        self.driver.find_element(By.ID, "Password").send_keys(Keys.ENTER)
-        self.driver.find_element(By.CSS_SELECTOR, "button").click()
-        element = self.driver.find_element(By.CSS_SELECTOR, "button")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).perform()
-        element = self.driver.find_element(By.CSS_SELECTOR, "body")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element, 0, 0).perform()
-        self.driver.find_element(By.CSS_SELECTOR, ".header-right").click()
-        self.driver.find_element(By.ID, "click").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".fa-meh").click()
-        self.driver.find_element(By.ID, "tweetBody").click()
-        self.driver.find_element(By.ID, "tweetBody").send_keys("new tweet test")
-        self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
-        element = self.driver.find_element(By.CSS_SELECTOR, ".btn")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).perform()
-        element = self.driver.find_element(By.CSS_SELECTOR, "body")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element, 0, 0).perform()
-        self.driver.find_element(By.ID, "like").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(2) #follow").click()
-        self.driver.find_element(By.LINK_TEXT, "Following").click()
-        self.driver.find_element(By.LINK_TEXT, "Write Something").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(2) #reply").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(2) #like").click()
-'''
+        print(f"Following User passed {passed} out of {tests_to_run} tests")
+        for case in tests.keys():
+            if not tests[case]:
+                print("Did not test", case)
