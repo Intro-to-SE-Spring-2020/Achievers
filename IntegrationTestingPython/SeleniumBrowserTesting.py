@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from os import startfile
 
-from signup_test import TestAchieversSite
+from test_achievers_site import TestAchieversSite
 
 '''
 use_def = input("Use defaults? (y/n)").lower()
@@ -34,7 +34,10 @@ elif use_def in nos:
         wait = None
 '''
 
-driver = webdriver.Firefox()
+#driver = webdriver.Firefox()
+driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Selenium\chromedriver\chromedriver.exe")
+
+
 try:
     test = TestAchieversSite()
     test.run(driver=driver) # actually running the tests
