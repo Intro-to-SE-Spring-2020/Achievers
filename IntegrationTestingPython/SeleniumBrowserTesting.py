@@ -6,9 +6,11 @@ Uses the selenium framework to test if the Achievers web app works as expected
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from os import startfile
+from os import getcwd
 
 from test_achievers_site import TestAchieversSite
+import unittest
+from pyunitreport import HTMLTestRunner
 
 '''
 use_def = input("Use defaults? (y/n)").lower()
@@ -36,11 +38,11 @@ elif use_def in nos:
 
 # driver = webdriver.Firefox()
 # driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Selenium\chromedriver\chromedriver.exe")
-driver = webdriver.Chrome()
+# driver = webdriver.Chrome()
 
 
 try:
-    test = TestAchieversSite()
-    test.run(driver=driver)  # actually running the tests
+    unittest.main(testRunner=HTMLTestRunner(output=getcwd()+'/output.txt'))
+
 except Exception as e:
     print(e)
