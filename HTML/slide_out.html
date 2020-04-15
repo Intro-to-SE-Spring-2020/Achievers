@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../Styling/Slide_out.css">
+
+</head>
+<body>
+  <div class="menu-content visuallyhidden hidden" id="slide">
+    <ul>
+      <li class="menu">Menu</li>
+            <li id = "user" onclick="window.location.href='Account_Page.html#Write';"><i class="fa fa-meh"></i> <span id="userText"></span></li>
+            <li id = "followers" onclick="window.location.href='Account_Page.html#friends';"><i class="fa fa-users"></i> Followers </li>
+            <li id = "settings" onclick="window.location.href='Account_Settings.html#settings'"><i class="fa fa-cog"></i> Edit Profile</li>
+            <li id = "contact" onclick="window.location.href='about.html';"><i class="fa fa-phone-square"></i> Contact Us</li>
+            <li id = "logout" onclick="accountLogout();"><i class="fa fa-home"></i> <span id="logoutText"></span></li>
+            <script>activeUser();</script>
+        </ul>
+  </div>
+
+      <script>
+          let slide = document.getElementById('slide'),
+          clk = document.querySelector('.clicker');
+
+          clk.addEventListener('click', function () {
+            $(".fa").toggleClass("fa-arrow-right");
+            $(".fa").toggleClass("fa-arrow-left");
+          if (slide.classList.contains('hidden')) {
+          slide.classList.remove('hidden');
+          setTimeout(function () {slide.classList.remove('visuallyhidden');}, 16);
+          }
+          else {
+          slide.classList.add('visuallyhidden');
+          slide.addEventListener('transitionend',function(e) {slide.classList.add('hidden');},{capture: false, once: true, passive: false});
+          }
+          }, false);
+      </script>
+</body>
+</html>

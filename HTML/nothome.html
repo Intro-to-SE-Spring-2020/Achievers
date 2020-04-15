@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <style>
+    body{
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif:cursive;
+      background: #34495e;
+      background-image: url("../Styling/mrcred.svg");
+      background-position: 50% 50%;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+    .meme{
+      background-image: url("../Styling/mrcred.svg");
+      background-position: 50% 50%;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      border-radius: 25px;
+      padding: 35px;
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      text-align: center;
+    }
+    h1{
+      color: white;
+    }
+  </style>
+  <meta charset="utf-8">
+  <title> About Page </title>
+  <link rel="stylesheet" href="../Styling/header.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+      $(function(){
+        var includes = $('[data-include]');
+        jQuery.each(includes, function(){
+          var file = $(this).data('include') + '.html';
+          $(this).load(file);
+        });
+      });
+</script>
+</head>
+<body>
+<div data-include="header"> </div>
+  <div class="meme" onclick="window.location.href='#doublehome.html'">
+      <h1> Home is Home.</h1>
+  </div>
+
+<div data-include="slide_out"> </div>
+</body>
+</html>
+
+<!--
+
+Add slide_out
+
+This file is mainly purposed for concept testing and if included will be only for the easter egg.
+
+Store session ID in cookies,
+session ID needs indepentence 'Merica'
+-->
