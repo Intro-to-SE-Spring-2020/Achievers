@@ -19,7 +19,16 @@ function postTweet(){
 	var postTweetRequest = new XMLHttpRequest();
 	postTweetRequest.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200){
-			showTweets();
+			console.log(this.responseText);
+			if(this.responseText == "True"){
+				document.getElementById("tweetErr").innerHTML = "";
+				showTweets();
+			}
+
+			else{
+				document.getElementById("tweetErr").innerHTML = "Your tweet must contain atleast one non whitespace character!";
+				showTweets();
+			}
 		}
 	};
 
@@ -44,6 +53,75 @@ function showTweets(){
 		if (this.readyState == 4 && this.status == 200){
 			console.log("Hey look at the users posts! Not the console!");
 			document.getElementById('tweetBox').innerHTML = this.responseText;
+		}
+	};
+
+	// Sending request to the php file
+	showTweetsRequest.open("GET", "../PHP/tweet.php?selected="+selected+"&username="+username, true);
+	showTweetsRequest.send();
+
+}
+
+function showBestTweets(){
+
+	// Selection choice for the php to handle 
+	var selected = "showBestTweets";
+
+	// Pulling the username for the active user from the site
+	var username = localStorage.getItem('username');
+
+	// Request to send information to show tweets
+	var showTweetsRequest = new XMLHttpRequest();
+	showTweetsRequest.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			console.log("Hey look at the users posts! Not the console!");
+			document.getElementById('tweetBox2').innerHTML = this.responseText;
+		}
+	};
+
+	// Sending request to the php file
+	showTweetsRequest.open("GET", "../PHP/tweet.php?selected="+selected+"&username="+username, true);
+	showTweetsRequest.send();
+
+}
+
+function showUserTweets(){
+
+	// Selection choice for the php to handle 
+	var selected = "showUserTweets";
+
+	// Pulling the username for the active user from the site
+	var username = localStorage.getItem('username');
+
+	// Request to send information to show tweets
+	var showTweetsRequest = new XMLHttpRequest();
+	showTweetsRequest.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			console.log("Hey look at the users posts! Not the console!");
+			document.getElementById('tweetBox3').innerHTML = this.responseText;
+		}
+	};
+
+	// Sending request to the php file
+	showTweetsRequest.open("GET", "../PHP/tweet.php?selected="+selected+"&username="+username, true);
+	showTweetsRequest.send();
+
+}
+
+function showFollowingTweets(){
+
+	// Selection choice for the php to handle 
+	var selected = "showFollowingTweets";
+
+	// Pulling the username for the active user from the site
+	var username = localStorage.getItem('username');
+
+	// Request to send information to show tweets
+	var showTweetsRequest = new XMLHttpRequest();
+	showTweetsRequest.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200){
+			console.log("Hey look at the users posts! Not the console!");
+			document.getElementById('tweetBox4').innerHTML = this.responseText;
 		}
 	};
 

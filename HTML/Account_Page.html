@@ -25,29 +25,16 @@
       <div class="item" id="following">
         <a href="#following">Following</a>
           <div class="submenu toggle">
-            The activities of people you follow will appear here.
+          <div id="followingBox"></div>
+          <script>showFollowing();</script>
           </div>
       </div>
 
       <div class="item" id="friends">
-        <a href="#friends">Friends</a>
+        <a href="#friends">Followers</a>
           <div class="submenu">
-            The activities of friends will appear here.
-            Along with a list of friends...Maybe???
-          </div>
-      </div>
-
-      <div class="item" id="request">
-        <a href="#request">Request</a>
-          <div class="submenu">
-              Requests will be ignored here.
-          </div>
-      </div>
-
-      <div class="item" id="messages">
-        <a href="#messages">Messages</a>
-          <div class="submenu">
-              A message inbox will manifest here...In time, it is pretty lazy.
+          <div id="followerBox"></div>
+          <script>showFollowers();</script>
           </div>
       </div>
 
@@ -58,14 +45,12 @@
           <span class="tweeters">
           <span class="a">
             <h2>Make a Post</h2>
+            <span id="tweetErr" style="color:red;"></span>
             <textarea id='tweetBody' rows='6' cols="35"></textarea><br><br>
             <button class="btn" onclick="postTweet(); clearFields();">Post Tweet</button>
-            <h2>Options</h2>
-            <h3>Filters</h3>
           </span>
           <span class="b">
             <h2>Feed</h2>
-            <p id="checkplz">Boxy Brown</p>
             <div id="tweetBox"></div>
           </span>
 
@@ -76,17 +61,8 @@
       <div class="item" id="past">
         <a href="#past">Historical</a>
           <div class="submenu">
-              The users old post will appear here,
-               along with a small snippet of where they came from.
-                maybe a link back too?
-          </div>
-      </div>
-
-      <div class="item" id="Best">
-        <a href="#Best">Your Best of All Time</a>
-          <div class="submenu">
-              A shrine to the users most popular post will go here.
-              By grace of the like system.
+            <div id="tweetBox3"></div>
+            <script>showUserTweets();</script>
           </div>
       </div>
 
@@ -95,12 +71,12 @@
   <div class="menu-content visuallyhidden hidden" id="slide">
     <ul>
       <li class="menu">Menu</li>
-            <li onclick="window.location.href='Account_Page.html'"><i class="fa fa-meh"></i> <span id="theuser"></span></li>
-            <li onclick="window.location.href='Account_Page.html#friends'"><i class="fa fa-users"></i> Friends </li>
-            <li onclick="window.location.href='Account_Page.html#messages'"><i class="fa fa-envelope"></i> Messages</li>
-            <li onclick="window.location.href='Account_Settings.html#settings'"><i class="fa fa-cog"></i> Settings</li>
-            <li onclick="window.location.href='about.html'"><i class="fa fa-phone-square"></i> Contact Us</li>
-            <li onclick="accountLogout();"><i class="fa fa-home"></i> Sign IN/OUT</li>
+            <li id = "user" onclick="window.location.href='Account_Page.html';"><i class="fa fa-meh"></i> <span id="userText"></span></li>
+            <li id = "followers" onclick="window.location.href='Account_Page.html#friends';"><i class="fa fa-users"></i> Followers </li>
+            <li id = "settings" onclick="window.location.href='Account_Settings.html#settings'"><i class="fa fa-cog"></i> Edit Profile</li>
+            <li id = "contact" onclick="window.location.href='about.html';"><i class="fa fa-phone-square"></i> Contact Us</li>
+            <li id = "logout" onclick="accountLogout();"><i class="fa fa-home"></i> <span id="logoutText"></span></li>
+            <script>activeUser();</script>
         </ul>
   </div>
 

@@ -3,6 +3,8 @@
 
 // Header file for mysql connection
 require_once('header.php');
+require_once('sanitization.php');
+
 $selected = strtolower(strval($_REQUEST['selected']));
 
 
@@ -18,26 +20,36 @@ if($selected == "accountcreate"){
 	$userCheck = $conn->query($userQuery);
 	$userResult = $userCheck->fetch_array();
 
+
+	$createAccountValidation = accountCreateSanitization($username, $password, $confirmPass, $email);
+
 	// If it does not exist then insert into users table in database
-	if(!$userResult) {
+	if(!$userResult){
+		if($createAccountValidation == "Success") {
 
-		$query = "insert into users (username, password, email) values ('$username', '$password', '$email');";
+			$query = "insert into users (username, password, email) values ('$username', '$password', '$email');";
 
-		$result = $conn->query($query);
-		if(!$result) {
-			die($conn->error);
+			$result = $conn->query($query);
+			if(!$result) {
+				die($conn->error);
+			}
+
+			echo "Account Created! Redirecting you to login! If not redirected automatically, <a href = login.html>click here</a>";
+
 		}
 
-		echo "Account Created! Redirecting you to login! If not redirected automatically, <a href = login.html>click here</a>";
+		// Else report that the user already exists
+		else{
 
+			echo $createAccountValidation;
+
+		}			
 	}
 
-	// Else report that the user already exists
 	else{
+		echo "That user already exists!";
+	}
 
-		echo "That username already exists! Please choose a different username or <a href = login.html>login</a>";
-
-	}	
 }
 
 if($selected == "accountlogin"){
@@ -108,6 +120,111 @@ if($selected == "followuser"){
 		$followRemoveCheck = $conn->query($followRemoveQuery);
 	}
 
+}
+
+if($selected == "showfollowing") {
+	$username = strval($_REQUEST['username']);
+
+	$followingQuery = "SELECT U.Username FROM users U, following F WHERE U.uid = F.follower_id AND F.user_id = (SELECT U2.uid FROM users U2 WHERE U2.username = '$username');";
+	$followingCheck = $conn->query($followingQuery);
+	while ($followingResult = $followingCheck->fetch_array()) {
+		echo "<div class=\"c\">";
+			echo"<div class=\"upper\"><span id=\"followingUser\">" . $followingResult[0] . " </span></div>";
+
+		echo"</div>";
+	}
+}
+
+if($selected == "showfollowers") {
+	$username = strval($_REQUEST['username']);
+
+	$followingQuery = "SELECT U.Username FROM users U, following F WHERE U.uid = F.user_id AND F.follower_id = (SELECT U2.uid FROM users U2 WHERE U2.username = '$username');";
+	$followingCheck = $conn->query($followingQuery);
+	while ($followingResult = $followingCheck->fetch_array()) {
+		echo "<div class=\"c\">";
+			echo"<div class=\"upper\"><span id=\"followingUser\">" . $followingResult[0] . " </span></div>";
+
+		echo"</div>";
+	}
+}
+
+if($selected == "updateaccount"){
+	$choice = strval($_REQUEST['choice']);
+
+	if($choice == "updateUsername"){
+		$currentUser = strval($_REQUEST['username']);
+		$newUser = strval($_REQUEST['newUsername']);
+
+		// Username check to see if that new username already exits
+		$userQuery = "select username from users where username = '$newUser';";
+		$userCheck = $conn->query($userQuery);
+		$userResult = $userCheck->fetch_array();
+
+		if(!$userResult) {
+			if(strlen(trim($newUser)) == 0){
+				echo "Invalid Username";
+			}
+
+			else{
+				$updateUserQuery = "UPDATE users SET username = '$newUser' WHERE uid = (SELECT uid FROM users WHERE username = '$currentUser');";
+				$updateUserCheck = $conn->query($updateUserQuery);
+
+				echo "Success";
+			}
+		}
+
+		else{
+			echo "That username is already taken!";
+		}
+	}
+
+	if($choice == "updateEmail"){
+		$currentUser = strval($_REQUEST['username']);
+		$newEmail = strval($_REQUEST['newEmail']);
+
+		if(!filter_var($newEmail, FILTER_VALIDATE_EMAIL)){
+			echo "That email is invalid!";
+		}
+
+		else{
+			$emailQuery = "select email from users where email = '$newEmail';";
+			$emailCheck = $conn->query($emailQuery);
+			$emailResult = $emailCheck->fetch_array();
+
+			if(!$emailResult){
+				$updateEmailQuery = "UPDATE users SET email = '$newEmail' WHERE uid = (SELECT uid FROM users WHERE username = '$currentUser');";
+				$updateEmailCheck = $conn->query($updateEmailQuery);
+
+				echo "Success";
+			}
+
+			else{
+				echo "That email already exists!";
+			}
+		}
+	}
+
+	if($choice == "updatePassword"){
+		$currentUser = strval($_REQUEST['username']);
+		$newPass = strval($_REQUEST['newPass']);
+		$newConfirmPass = strval($_REQUEST['newConfirmPass']);
+
+		if(strlen(trim($newPass)) == 0){
+			echo "Invalid Password";
+		}
+
+		else{
+			if($newPass != $newConfirmPass){
+				echo "Passwords Do Not Match!";
+			}
+			else{
+				$updateEmailQuery = "UPDATE users SET password = '$newPass' WHERE uid = (SELECT uid FROM users WHERE username = '$currentUser');";
+				$updateEmailCheck = $conn->query($updateEmailQuery);
+
+				echo "Success";
+			}
+		}
+	}
 }
 
 

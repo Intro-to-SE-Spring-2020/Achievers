@@ -27,7 +27,7 @@ print("Created database")
 cursor.execute("use achievers;")
 print("using database")
 
-cursor.execute("create table if not exists `users` (`uid` int not null auto_increment primary key, `userName` varchar(255) not null, `email` varchar(255) not null, `password` varchar(8) not null) engine = InnoDB;")
+cursor.execute("create table if not exists `users` (`uid` int not null auto_increment primary key, `userName` varchar(255) not null, `email` varchar(255) not null, `password` varchar(16) not null) engine = InnoDB;")
 print("created users")
 
 cursor.execute("create table if not exists `tweets` (`tid` int not null auto_increment primary key, `uid` int not null, `body` varchar(140) not null, `date` varchar(23) not null, `time` time(6) not null, foreign key(uid) references users(uid)) engine = InnoDB;")
