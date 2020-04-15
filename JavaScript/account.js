@@ -122,6 +122,7 @@ function accountEmailUpdate(){
 		if (this.readyState == 4 && this.status == 200){
 			if(this.responseText != "Success"){
 				document.getElementById('profileOutput').innerHTML = this.responseText;
+				document.getElementById('profileOutput').setAttribute("style", "color:red;");
 			}
 
 			else{
@@ -150,6 +151,7 @@ function accountPassUpdate(){
 			console.log(this.responseText);
 			if(this.responseText != "Success"){
 				document.getElementById('profileOutput').innerHTML = this.responseText;
+				document.getElementById('profileOutput').setAttribute("style", "color:red;");
 			}
 
 			else{
