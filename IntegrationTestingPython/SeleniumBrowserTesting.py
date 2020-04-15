@@ -35,8 +35,8 @@ elif use_def in nos:
 '''
 
 # driver = webdriver.Firefox()
-# driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Selenium\chromedriver\chromedriver.exe")
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Selenium\chromedriver\chromedriver.exe")
+# driver = webdriver.Chrome()
 
 
 try:

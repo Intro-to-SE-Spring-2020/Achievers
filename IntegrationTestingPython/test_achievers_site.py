@@ -195,24 +195,22 @@ class TestAchieversSite:
             WebDriverWait(self.driver, 5).until(
                 expected_conditions.presence_of_element_located((By.ID, "tweetBody"))
             )  # Wait until the `tweetBody` element appear (up to 5 seconds)
-            body = self.driver.find_element_by_id("tweetBody")
 
-            # Error is currently believed to be in this block
-            # Issue is that the PHP does not get
-            ###################################
-            body.click()
-            body.send_keys(Keys.TAB)
-            sleep(1)
-            body.clear()
-            body.send_keys(new_text)
-            height = self.driver.get_window_size()["height"] / 10
-            ActionChains(self.driver).move_to_element(body).move_by_offset(height, -height).click().perform()
-            ###################################
-
-            sleep(0.2)
-            button = self.driver.find_element_by_xpath("//button[contains(.,'Post Tweet') and not(@disabled)]")
-            ActionChains(self.driver).move_to_element(button).pause(0.2).click().pause(0.2).perform()
-            sleep(0.2)
+            # Send two tweets (req'd for later testing)
+            for i in range(2):
+                body = self.driver.find_element_by_id("tweetBody")
+                body.click()
+                body.send_keys(Keys.TAB)
+                sleep(0.5)
+                body.clear()
+                body.send_keys(new_text)
+                height = self.driver.get_window_size()["height"] / 10
+                ActionChains(self.driver).move_to_element(body).move_by_offset(height, -height).click().perform()
+                ###################################
+                sleep(0.2)
+                button = self.driver.find_element_by_xpath("//button[contains(.,'Post Tweet') and not(@disabled)]")
+                ActionChains(self.driver).move_to_element(button).pause(0.2).click().pause(0.2).perform()
+                sleep(0.2)
             tweet_text = self.driver.find_element(By.CSS_SELECTOR, ".c:nth-child(1) > .middle").text
             assert username in tweet_text
             print(check+"...Tweet posting passed test...")
@@ -260,7 +258,7 @@ class TestAchieversSite:
     def test_follow_user(self):
         print("Testing following a user...", end="\n")
         # current_tweet = None
-        tests = {"Follow self": False, "Follow User": False, "Unfollow User": False}
+        tests = {"Follow Self": False, "Follow User": False, "Unfollow User": False}
         possible_tweets = self.driver.find_elements_by_class_name("upper-right")
         tests_to_run = min(len(possible_tweets), 10)
         passed, total_ran = 0, 0
@@ -275,23 +273,23 @@ class TestAchieversSite:
                         twt_id_str = t.find_element_by_xpath("./span").get_attribute("id")
                         curr_twt_id = int(twt_id_str[:twt_id_str.find("likes")])  # want just the number part
                         # only proceed through test if match
-                        if curr_twt_id != twt_id:
-                            continue
+                        if curr_twt_id == twt_id:
+                            break
                     except Exception as e:
                         print(test_number_string+"Error in searching tweets...", e)
                 par = t.find_element_by_xpath('..')  # get parent
-                if par.find_element_by_id("tweetUser").text == self.entries[0][1] and not tests["Follow User"]:
+                if par.find_element_by_id("tweetUser").text == self.entries[0][1] and not tests["Follow Self"]:
                     # print(f"Logged in as tweet {twt_id}'s user; cannot follow self")
                     total_ran += 1
                     try:
                         follow_button = par.find_element_by_id("follow")
-                        # if get to here, have failed
-                        print(test_number_string+"X... Failed at failing to follow self.")
-
-                    except Exception:
+                        style = follow_button.get_attribute("style")
+                        assert "none" in style
                         passed += 1
                         print(test_number_string + f"{check} Successfully failed at following self")
-                        tests["Follow self"] = True
+                        tests["Follow Self"] = True
+                    except Exception:
+                        print(test_number_string+"X... Failed at failing to follow self.")
 
                 else:
                     follow_button = par.find_element_by_id("follow")
