@@ -1,1 +1,33 @@
-language: node_js
+services:
+  - mysql
+
+language: python
+
+python: 3.8
+before_script:
+  - ./database.py
+  # https://www.ocadotechnology.com/blog/2019/1/14/how-to-use-chromedriver-with-travis-ci-for-selenium-tests
+  - wget https://chromedriver.storage.googleapis.com/81.0.4044.69/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
+  - export CHROME_BIN=chromium-browser
+  - sleep 10
+
+
+script:
+  - python /IntegrationTestingPython/SeleniumBrowserTesting.py
+  
+# https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-the-chrome-addon-in-the-headless-mode
+addons:
+  chrome: stable
+before_install:
+  - # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
+
+# From the Mocha days
+# install:
+#   - npm i mocha
+#   - npm i jsdom
+#   - npm ci
+# script:
+#   - npm run test

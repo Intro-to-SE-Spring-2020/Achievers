@@ -1,18 +1,25 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-	<style>
-		table {
-  			font-family: arial, sans-serif;
-  			border-collapse: collapse;
-  			width: 100%;
-		}
+  <meta charset="utf-8">
+  <title> Homepage </title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+  <div class="header">
+    <a href="about.html" class="logo">Achievers</a>
+    <div class="header-right">
+      <a href="login.html">Account?</a>
+    </div>
+  </div>
 
-		td, th {
-  			border: 1px solid #dddddd;
-  			text-align: left;
-  			padding: 8px;
-		}
+  <div class="scroll-section">
+    <div class="bar">
+      <a href="#">Trends</a>
+      <div class="submenu" id="toggle">
+        Trends will go here.
 
 		tr:nth-child(even) {
   		background-color: #dddddd;
@@ -38,5 +45,6 @@
 	<h2>Feed</h2>
 	<table id="tweetBox"></table>
 </body>
+</html>
 
 </html>
