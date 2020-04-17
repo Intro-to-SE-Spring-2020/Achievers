@@ -1,0 +1,12 @@
+{
+    "name": "Achievers",
+    "version": "10.16.3",
+    "scripts": {
+        "test": "mocha"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "jsdom": "16.2.1",
+        "jsdom-global": "3.0.2"
+    }
+}

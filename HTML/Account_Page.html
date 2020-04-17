@@ -13,11 +13,17 @@
   <div class="header">
     <a href="home.html" class="logo">Achievers</a>
     <div class="header-right">
-      <a href="login.html">Account?</a>
-      <a href="signup.html">Need An Account?</a>
+      <a href="login.html" id="signupLink">Account?</a>
+      <a href="signup.html" id="loginLink">Need An Account?</a>
       <a href="#no" id="click" class="clicker"><i class="fa fa-arrow-left"></i></a>
     </div>
   </div>
+  <script>
+        showFollowing();
+        showFollowers();
+        showTweets();
+        showUserTweets();
+  </script>
 
   <div class="scroll-section">
     <div class="bar">
@@ -28,10 +34,10 @@
     </div>
 
       <div class="item" id="following">
-          <div class="submenu toggle">
+        <div class="submenu">
           <div id="followingBox"></div>
           <!--<script>showFollowing();</script>-->
-          </div>
+        </div>
       </div>
 
       <div class="item" id="friends">
@@ -71,7 +77,7 @@
   <div class="menu-content visuallyhidden hidden" id="slide">
     <ul>
       <li class="menu">Menu</li>
-            <li id = "user" onclick="window.location.href='Account_Page.html#Write';"><i class="fa fa-meh"></i> <span id="userText"></span></li>
+            <li id = "user" onclick="window.location.href='Account_Page.html#past';"><i class="fa fa-meh"></i> <span id="userText"></span></li>
             <li id = "followers" onclick="window.location.href='Account_Page.html#friends';"><i class="fa fa-users"></i> Followers </li>
             <li id = "settings" onclick="window.location.href='Account_Settings.html#settings'"><i class="fa fa-cog"></i> Edit Profile</li>
             <li id = "contact" onclick="window.location.href='about.html';"><i class="fa fa-phone-square"></i> Contact Us</li>
