@@ -23,14 +23,18 @@ body{
   overflow: hidden;
 }
 .bar {
-  overflow: hidden;/*
-  position: absolute;;*/
+  float: left;
+  overflow: hidden;
+  /*position: -webkit-sticky;
+  position: sticky;
+  /*position: absolute;
   /*background-image: linear-gradient(-90deg, #9955FF, #5555FF, #5555FF, #5500AA);*/
   background-image: linear-gradient(-90deg, #9955FFFF, #5555FF75, #5555FF75, #5500AAFF);
   background-repeat: no-repeat;
   box-shadow: 2px 2px 5px white;
   padding: 15px 5px;
   border-radius: 10px;
+  width: 99%;
 }
 .bar a {
  float: left;
@@ -51,16 +55,15 @@ body{
   transition: 0.25s;
 }
 .submenu {
-  height: 95%;
+  height: 90%;
   padding: 10px;
   width: 94%;
   position: absolute;
   display: none;
-  margin-top: 5%;
+  margin-top: 100px;
   margin-left: 2%;
   background-color: white;
   overflow-y: auto;
-  /*border-radius: 1%; !important;*/
 }
 .toggle{
   display: block;
@@ -86,14 +89,3 @@ body{
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-/*
-.fa {
-  font-size: 50px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.fa:hover {
-  color: darkblue;
-}
-*/
